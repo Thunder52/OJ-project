@@ -15,7 +15,20 @@ const Login = () => {
       return;
     }
 
-    // Handle login logic here
+    const data=new FormData();
+    data.append('email',email);
+    data.append('password',password);
+
+    try {
+      const response=await postLogin(data);
+      if(response.success){
+        setMessage('Login successful!');
+      }else{
+        setError('Login failed. Please try again.');
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
+    }
   };
 
   return (
