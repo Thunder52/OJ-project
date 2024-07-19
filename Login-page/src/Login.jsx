@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { loginUser } from './Service/api'; 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate=useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setMessage('');
 
     if (!email || !password) {
       setError('Please enter both email and password.');
       return;
     }
 
-    const data=new FormData();
-    data.append('email',email);
-    data.append('password',password);
+    const data = { email, password };
 
     try {
-      const response=await postLogin(data);
-      if(response.success){
+      const response = await loginUser(data);
+      if (response.success) {
         setMessage('Login successful!');
-      }else{
+        navigate('./problem-List');
+      } else {
         setError('Login failed. Please try again.');
       }
     } catch (error) {

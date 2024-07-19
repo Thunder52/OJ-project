@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getLogin } from './Service/api';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from './Service/api';
+// import { AuthContext } from './AuthContext';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -9,13 +11,15 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+  // const {login}=useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setMessage('');
 
-    if (!email || !password || !confirmPassword || !name) {
+    if (!name || !email || !password || !confirmPassword) {
       setError('Please fill all fields.');
       return;
     }
@@ -25,19 +29,16 @@ const Register = () => {
       return;
     }
 
-    const data = new FormData();
-    data.append('name', name);
-    data.append('email', email);
-    data.append('password', password);
+   const userData={name,email,password};
+   console.log('Submitting userData:', userData);
 
     try {
-      const response = await getLogin(data);
-      if (response.success) {
-        setMessage('Registration successful!');
-      } else {
-        setError('Registration failed. Please try again.');
+      const response = await registerUser(userData);
+      console.log('Registration Successfull' ,response);
+      navigate('/login');
       }
-    } catch (error) {
+     catch (error) {
+      console.log("Registration failed",error);
       setError('An error occurred. Please try again.');
     }
   };
@@ -54,9 +55,9 @@ const Register = () => {
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
               <input
-                type="text"
+                type="name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value)} required
                 className="w-full px-3 py-2 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
               />
             </div>
@@ -65,7 +66,7 @@ const Register = () => {
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)} required
                 className="w-full px-3 py-2 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
               />
             </div>
@@ -74,7 +75,7 @@ const Register = () => {
               <input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)} required
                 className="w-full px-3 py-2 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
               />
             </div>
@@ -83,7 +84,7 @@ const Register = () => {
               <input
                 type="password"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => setConfirmPassword(e.target.value)} required
                 className="w-full px-3 py-2 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
               />
             </div>
