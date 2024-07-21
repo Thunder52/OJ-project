@@ -6,7 +6,9 @@ import { DBConnection } from './data base/db.js';
 import User from './models/Users.js';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
-import routes from './routes/Routes.js'
+// import routes from './routes/Routes.js'
+import problemRouter from './routes/problem.js';
+import Problems from './models/problems.js';
 
 dotenv.config();
 
@@ -20,7 +22,8 @@ app.use(cookieParser());
 
 DBConnection();
 
-app.use('/api', routes);
+// app.use('/api', routes);
+app.use('/problems',problemRouter);
 
 app.post("/Register", async (req, res) => {
     const {name,email,password}=req.body;
@@ -87,6 +90,19 @@ app.post("/", async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 });
+
+// app.post("/problems",async (req,res)=>{
+//     const { name, topic,describtion } = req.body;
+
+//   try {
+//     const newProblem = new Problems({ name, topic, describtion });
+//     const problem = await newProblem.save();
+//     res.json(problem);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server error');
+//   }
+// });
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

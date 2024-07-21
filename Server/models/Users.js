@@ -11,7 +11,12 @@ const userSchema=new mongoose.Schema({
     password:{
         type:String,
         require:true
-    }
+    },
+    // role:{
+    //     tyoe:String,
+    //     enum:['user','admin'],
+    //     default:'user'
+    // }
 });
 
 const User = mongoose.model('User', userSchema);

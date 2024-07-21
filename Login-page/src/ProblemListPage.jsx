@@ -8,10 +8,10 @@ import { useNavigate } from 'react-router-dom';
 const ProblemListPage = () => {
   const [problems, setProblems] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState('All');
-  const [Describtion,setDescribtion]=useState('');
+  const [describtion,setDescribtion]=useState('');
   const navigate=useNavigate();
 
-  const problemsData={problems,Describtion};
+  // const problemsData={problems,topic,describtion};
 
   useEffect(() => {
     const fetchProblemList = async () => {

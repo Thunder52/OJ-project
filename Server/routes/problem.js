@@ -3,7 +3,8 @@ const problemRouter=express.Router();
 import {createProblem,getProblems,getProblemById,updateProblem,deleteProblem} from '../Controllers/ProblemController.js';
 import auth from '../middlewear/authMiddlewear.js';
 
-problemRouter.post("/",auth,createProblem);
+
+problemRouter.post("/add-problem",auth,createProblem);
 
 problemRouter.get("/",getProblems);
 

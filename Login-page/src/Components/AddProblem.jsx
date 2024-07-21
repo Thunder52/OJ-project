@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { createProblem } from '../Service/api';
+import { Link } from 'react-router-dom';
 
 const AddProblem = () => {
   const [problem, setProblem] = useState({
     name: '',
     topic: '',
-    Describtion: '',
+    describtion: '',
   });
 
   const handleChange = (e) => {
@@ -17,8 +18,9 @@ const AddProblem = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token'); 
     try {
-      await createProblem(problem);
+      await createProblem(problem, token);
       setProblem({ name: '', topic: '', Describtion: '' });
     } catch (error) {
       console.error('Error creating problem:', error);
@@ -45,9 +47,9 @@ const AddProblem = () => {
         />
         <input
           type="text"
-          name="Describtion"
-          placeholder="Describtion"
-          value={problem.Describtion}
+          name="describtion"
+          placeholder="describtion"
+          value={problem.describtion}
           onChange={handleChange}
         />
         <button type="submit">Add</button>

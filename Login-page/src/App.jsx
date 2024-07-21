@@ -5,6 +5,7 @@ import Register from './Register';
 import ProblemListPage from './ProblemListPage';
 import AddProblem from './Components/AddProblem';
 import UpdateProblem from './Components/UpdateProblem';
+import ProblemSolve from './Components/ProblemSolve';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/problem-list" element={<ProblemListPage />} />
         <Route path="/add-problem" element={<AddProblem />} />
         <Route path="/update-problem/:id" element={<UpdateProblem />} />
+        {/* <Route path="/problems/:id" element={<ProblemSolve/>}/> */}
         <Route path="/" element={<Login />} />
       </Routes>
     </Router>
