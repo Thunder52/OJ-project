@@ -7,7 +7,7 @@ import User from './models/Users.js';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 // import routes from './routes/Routes.js'
-import problemRouter from './routes/problem.js';
+import problemRoutes from './routes/problemRoutes.js';
 import Problems from './models/problems.js';
 
 dotenv.config();
@@ -23,7 +23,10 @@ app.use(cookieParser());
 DBConnection();
 
 // app.use('/api', routes);
-app.use('/problems',problemRouter);
+app.use('/api/problems',problemRoutes);
+// app.use('/api/problems', require('./routes/problem'));
+// app.use('/api/submit', require('./routes/submit'));
+// app.use('/api/leaderboard', require('./routes/leaderboard'));
 
 app.post("/Register", async (req, res) => {
     const {name,email,password}=req.body;
@@ -103,6 +106,38 @@ app.post("/", async (req, res) => {
 //     res.status(500).send('Server error');
 //   }
 // });
+
+app.post('/run/:id', async (req, res) => {
+    const { id } = req.params;
+    const { code, language } = req.body;
+  
+    try {
+      const problem = await Problem.findById(id);
+      if (!problem) {
+        return res.status(404).json({ message: 'Problem not found' });
+      }
+  
+      let allPassed = true;
+      const results = [];
+  
+      for (const testCase of problem.testcases) {
+        const payload = { code, language, input: testCase.input };
+        const { data } = await axios.post('http://localhost:8000/run', payload);
+  
+        if (data.output.trim() === testCase.output.trim()) {
+          results.push({ testCase: testCase.input, result: 'Passed' });
+        } else {
+          results.push({ testCase: testCase.input, result: `Failed (Expected: ${testCase.output}, Got: ${data.output})` });
+          allPassed = false;
+        }
+      }
+  
+      res.json({ results, allPassed });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

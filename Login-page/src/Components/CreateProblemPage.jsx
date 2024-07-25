@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const UpdateProblemPage = () => {
-  const { id } = useParams();
+const CreateProblemPage = () => {
   const navigate = useNavigate();
   const [problem, setProblem] = useState({
     name: '',
@@ -13,19 +12,6 @@ const UpdateProblemPage = () => {
     hints: '',
     testcases: [{ input: '', output: '' }]
   });
-
-  useEffect(() => {
-    const fetchProblem = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/problems/${id}`);
-        setProblem(response.data);
-      } catch (error) {
-        console.error('Error fetching problem:', error);
-      }
-    };
-
-    fetchProblem();
-  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,17 +43,17 @@ const UpdateProblemPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:8000/api/problems/${id}`, problem);
+      await axios.post('http://localhost:8000/api/problems', problem);
       navigate('/problem-list');
     } catch (error) {
-      console.error('Error updating problem:', error);
+      console.error('Error creating problem:', error);
     }
   };
 
   return (
     <div>
       <header className="bg-blue-600 text-white p-4">
-        <h1 className="text-2xl font-bold">Update Problem</h1>
+        <h1 className="text-2xl font-bold">Create Problem</h1>
       </header>
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-1/2">
@@ -101,7 +87,7 @@ const UpdateProblemPage = () => {
               value={problem.difficulty}
               onChange={handleChange}
               className="w-full p-2 border rounded"
-              required
+              // required
             />
           </div>
           <div className="mb-4">
@@ -110,7 +96,7 @@ const UpdateProblemPage = () => {
               type="text"
               name="hints"
               value={problem.hints}
-              onChange= {handleChange}
+              onChange={handleChange}
               className="w-full p-2 border rounded"
               required
             />
@@ -156,11 +142,11 @@ const UpdateProblemPage = () => {
               required
             ></textarea>
           </div>
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Update</button>
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Create</button>
         </form>
       </div>
     </div>
   );
 };
 
-export default UpdateProblemPage;
+export default CreateProblemPage;

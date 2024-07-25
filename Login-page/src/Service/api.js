@@ -52,7 +52,7 @@ export const fetchProblemById = async (id) => {
 
 export const createProblem = async (problemData, token) => {
   try {
-    const response = await axios.post(`${BACKEND_API_URL}/api/problems`, problemData, {
+    const response = await axios.post(`${BACKEND_API_URL}/problems/add-problems`, problemData, {
       headers: {
         'x-auth-token': token,
         'Content-Type': 'application/json',
