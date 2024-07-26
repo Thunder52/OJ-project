@@ -22,4 +22,4 @@ const generateInputFile = async (input) => {
     return input_filePath;
 };
 
-export { generateInputFile };
+export default generateInputFile ;

@@ -7,28 +7,21 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
 
-const ProblemSolvePage = () => {
+const ProblemSolvingPage = () => {
   const { id } = useParams();
   const [problem, setProblem] = useState({});
   const [code, setCode] = useState(`#include <iostream>
 using namespace std;
 
-// Define the main function
 int main() {
-    // Declare variables
     int num1, num2, sum;
-    // Prompt user for input
     cin >> num1 >> num2;
-    // Calculate the sum
     sum = num1 + num2;
-    // Output the result
     cout << "The sum of the two numbers is: " << sum;
-    // Return 0 to indicate successful execution
     return 0;
 }`);
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
-  const [testResults, setTestResults] = useState([]);
+  const [language, setLanguage] = useState('cpp');
+  const [results, setResults] = useState([]);
   const [allPassed, setAllPassed] = useState(null);
 
   useEffect(() => {
@@ -46,18 +39,12 @@ int main() {
 
   const handleSubmit = async () => {
     try {
-      const payload = { code, language: 'cpp' };
-      const { data } = await axios.post(`http://localhost:8000/api/run/${id}`, payload);
-      setTestResults(data.results);
-      setAllPassed(data.allPassed);
-      if (data.allPassed) {
-        // Update user solved problems in local storage
-        const solvedProblems = JSON.parse(localStorage.getItem('solvedProblems')) || [];
-        if (!solvedProblems.includes(id)) {
-          solvedProblems.push(id);
-          localStorage.setItem('solvedProblems', JSON.stringify(solvedProblems));
-        }
-      }
+      const response = await axios.post(`http://localhost:5000/run/${id}`, {
+        code,
+        language
+      });
+      setResults(response.data.results);
+      setAllPassed(response.data.allPassed);
     } catch (error) {
       console.log(error.response);
     }
@@ -83,6 +70,19 @@ int main() {
       </div>
       <div className="lg:w-1/2 lg:pl-8">
         <h1 className="text-3xl font-bold mb-3">Code Editor</h1>
+        <div className="mb-4">
+          <label htmlFor="language" className="block text-sm font-medium text-gray-700">Language</label>
+          <select
+            id="language"
+            name="language"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          >
+            <option value="cpp">C++</option>
+            <option value="java">Java</option>
+          </select>
+        </div>
         <div className="bg-gray-500 shadow-md mb-4" style={{ height: '300px', overflowY: 'auto' }}>
           <Editor
             value={code}
@@ -119,25 +119,25 @@ int main() {
           Run
         </button>
         <div className="mt-4">
-          {testResults.length > 0 && (
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold mb-2">Test Results</h2>
-              {testResults.map((result, index) => (
-                <p key={index} className={`mb-1 ${result.result.includes('Failed') ? 'text-red-500' : 'text-green-500'}`}>
-                  Test Case {index + 1}: {result.result}
-                </p>
-              ))}
-            </div>
-          )}
           {allPassed !== null && (
-            <div className={`text-lg font-semibold ${allPassed ? 'text-green-500' : 'text-red-500'}`}>
-              {allPassed ? 'All test cases passed!' : 'Some test cases did not pass.'}
+            <div className={`p-4 rounded ${allPassed ? 'bg-green-100' : 'bg-red-100'}`}>
+              {allPassed ? 'All test cases passed!' : 'Some test cases failed.'}
             </div>
           )}
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold mb-2">Results</h2>
+            <ul>
+              {results.map((result, index) => (
+                <li key={index} className="mb-2">
+                  <strong>Test Case:</strong> {result.testCase} - <strong>Result:</strong> {result.result}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ProblemSolvePage;
+export default ProblemSolvingPage;

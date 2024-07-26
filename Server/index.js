@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 // import routes from './routes/Routes.js'
 import problemRoutes from './routes/problemRoutes.js';
-import Problems from './models/problems.js';
+
 
 dotenv.config();
 
@@ -24,38 +24,46 @@ DBConnection();
 
 // app.use('/api', routes);
 app.use('/api/problems',problemRoutes);
+// app.use('/api',compilerRoutes);
 // app.use('/api/problems', require('./routes/problem'));
 // app.use('/api/submit', require('./routes/submit'));
 // app.use('/api/leaderboard', require('./routes/leaderboard'));
 
-app.post("/Register", async (req, res) => {
-    const {name,email,password}=req.body;
+app.post("/register", async (req, res) => {
+    const { name, email, password, role } = req.body;
     try {
         if (!name || !email || !password) {
             return res.status(400).send("Please enter all the credentials fields!");
         }
         const existingUser = await User.findOne({ email });
-        console.log(existingUser);
         if (existingUser) {
             return res.status(400).send("User already exists");
         }
-        const hashedPassword = bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        // Only admin can create another admin
+        let userRole = 'user';
+        if (role && req.user && req.user.role === 'admin') {
+            userRole = role;
+        }
 
-        const user =  User.create({
+        const user = await User.create({
             name,
             email,
             password: hashedPassword,
+            role: userRole,
         });
 
-        const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, {
+        const token = jwt.sign({ id: user._id, email, role: user.role }, process.env.SECRET_KEY, {
             expiresIn: "1d",
         });
+
         user.token = token;
         user.password = undefined;
-        return res.status(200).json({ message: "You have successfully registered!", user });
+        res.status(200).json({ message: "You have successfully registered!", user });
     } catch (error) {
         console.log(error);
-        return res.status(500).send("Internal Server Error");
+        res.status(500).send("Internal Server Error");
     }
 });
 
@@ -107,37 +115,6 @@ app.post("/", async (req, res) => {
 //   }
 // });
 
-app.post('/run/:id', async (req, res) => {
-    const { id } = req.params;
-    const { code, language } = req.body;
-  
-    try {
-      const problem = await Problem.findById(id);
-      if (!problem) {
-        return res.status(404).json({ message: 'Problem not found' });
-      }
-  
-      let allPassed = true;
-      const results = [];
-  
-      for (const testCase of problem.testcases) {
-        const payload = { code, language, input: testCase.input };
-        const { data } = await axios.post('http://localhost:8000/run', payload);
-  
-        if (data.output.trim() === testCase.output.trim()) {
-          results.push({ testCase: testCase.input, result: 'Passed' });
-        } else {
-          results.push({ testCase: testCase.input, result: `Failed (Expected: ${testCase.output}, Got: ${data.output})` });
-          allPassed = false;
-        }
-      }
-  
-      res.json({ results, allPassed });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  });
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

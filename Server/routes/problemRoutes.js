@@ -19,13 +19,15 @@
 import express from 'express';
 const router = express.Router();
 import Problem from '../models/problems.js';
+import User from '../models/Users.js';
+import isAdmin from '../middlewear/isAdmin.js';
 
 import { getProblems, getProblemById, createProblem, updateProblem, deleteProblem } from '../controllers/ProblemController.js';
 
 router.get('/', getProblems);
 router.get('/:id', getProblemById);
-router.post('/', createProblem);
-router.put('/:id', updateProblem);
+router.post('/',  createProblem);
+router.put('/:id',  updateProblem);
 router.delete('/:id', deleteProblem);
 
 // router.post('/', async (req, res) => {
@@ -67,5 +69,21 @@ router.delete('/:id', deleteProblem);
 //       res.status(500).json({ message: err.message });
 //     }
 //   });
+
+router.post('/:userId/solved', async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const { problemId } = req.body;
+      const user = await User.findById(userId);
+      if (!user.solvedProblems.includes(problemId)) {
+        user.solvedProblems.push(problemId);
+        await user.save();
+      }
+      res.status(200).json({ message: 'Problem added to solved list' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error updating solved problems', error });
+    }
+  });
+
 
 export default router;

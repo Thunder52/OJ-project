@@ -19,4 +19,4 @@ const generateFile = async (format, content) => {
     return filePath;
 }
 
-export { generateFile };
+export default  generateFile;

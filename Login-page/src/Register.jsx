@@ -35,7 +35,7 @@ const Register = () => {
     try {
       const response = await registerUser(userData);
       console.log('Registration Successfull' ,response);
-      navigate('/login');
+      navigate('/');
       }
      catch (error) {
       console.log("Registration failed",error);

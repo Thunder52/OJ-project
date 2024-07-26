@@ -73,6 +73,7 @@
 //   }
 // };
 
+
 import Problem from '../models/problems.js';
 
 export const getProblems=async(req,res)=>{
@@ -86,7 +87,7 @@ export const getProblems=async(req,res)=>{
 
 export const getProblemById=async (req,res)=>{
     try {
-        const problem=await Problem.findById(res.params.id);
+        const problem=await Problem.findById(req.params.id);
         if(!problem){
             return res.status(400).json({message:'Problem not found'});
         }
@@ -97,8 +98,8 @@ export const getProblemById=async (req,res)=>{
 };
 
 export const createProblem=async (req,res)=>{
-  const { name, statement, topic, hints, testcases } = req.body;
-  const newProblem = new Problem({ name, statement, topic, hints, testcases });
+  const { name, statement, topic,difficulty, hints, testcases } = req.body;
+  const newProblem = new Problem({ name, statement, topic,difficulty, hints, testcases });
   try {
     const savedProblem = await newProblem.save();
     res.status(201).json(savedProblem);
@@ -108,7 +109,7 @@ export const createProblem=async (req,res)=>{
 };
 
 export const updateProblem = async (req, res) => {
-  const { name, statement, topic, hints, testcases } = req.body;
+  const { name, statement, topic, difficulty, hints, testcases } = req.body;
   try {
     const problem = await Problem.findById(req.params.id);
     if (!problem) {
@@ -117,6 +118,7 @@ export const updateProblem = async (req, res) => {
     problem.name = name;
     problem.statement = statement;
     problem.topic = topic;
+    problem.difficulty=difficulty;
     problem.hints = hints;
     problem.testcases = testcases;
     const updatedProblem = await problem.save();
