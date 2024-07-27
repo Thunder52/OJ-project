@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Filter = ({ selectedTopic, onFilterChange }) => {
-  const topics = ['All', 'combinatorics', 'dp', 'brute force', 'greedy', 'math'];
+  const topics = ['All', 'dp', 'brute force', 'greedy','Arrays','String'];
 
   return (
     <div className="mb-4">

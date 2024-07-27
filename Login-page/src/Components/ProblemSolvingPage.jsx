@@ -6,6 +6,7 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
+import Header from './Header';
 
 const ProblemSolvingPage = () => {
   const { id } = useParams();
@@ -14,10 +15,6 @@ const ProblemSolvingPage = () => {
 using namespace std;
 
 int main() {
-    int num1, num2, sum;
-    cin >> num1 >> num2;
-    sum = num1 + num2;
-    cout << "The sum of the two numbers is: " << sum;
     return 0;
 }`);
   const [language, setLanguage] = useState('cpp');
@@ -51,24 +48,29 @@ int main() {
   };
 
   return (
-    <div className="container mx-auto py-8 flex flex-col lg:flex-row items-stretched">
-      <div className="lg:w-1/2 lg:pr-4 mb-4">
+    <div>
+      <Header/>
+    <div className="container mx-auto py-8 px-4 flex flex-col lg:flex-row items-stretch h-screen">
+      <div className="lg:w-1/2 lg:pr-4 mb-4 flex flex-col">
         <h1 className="text-3xl font-bold mb-3">Problem Details</h1>
-        <div className="bg-white shadow-md p-4 mb-4">
+        <div className="bg-white shadow-lg rounded-lg p-6 flex-grow overflow-auto">
           <h2 className="text-xl font-bold mb-2">{problem.name}</h2>
           <p className="text-gray-700 mb-2"><strong>Difficulty:</strong> {problem.difficulty}</p>
           <p className="text-gray-700 mb-2"><strong>Topic:</strong> {problem.topic}</p>
-          <p className="text-gray-700 mb-4"><strong>Statement:</strong> {problem.statement}</p>
+          <p className="text-gray-700 mb-4"><strong>Statement:</strong></p>
+          <p className="text-gray-700 mb-4">{problem.statement}</p>
           {problem.testcases && problem.testcases.length > 0 && (
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Example Test Case</h3>
-              <p className="text-gray-700"><strong>Input:</strong> {problem.testcases[0].input}</p>
-              <p className="text-gray-700"><strong>Output:</strong> {problem.testcases[0].output}</p>
+              <p className="text-gray-700"><strong>Input:</strong></p>
+              <p className="text-gray-700 mb-2">{problem.testcases[0].input}</p>
+              <p className="text-gray-700"><strong>Output:</strong></p>
+              <p className="text-gray-700">{problem.testcases[0].output}</p>
             </div>
           )}
         </div>
       </div>
-      <div className="lg:w-1/2 lg:pl-8">
+      <div className="lg:w-1/2 lg:pl-4 flex flex-col">
         <h1 className="text-3xl font-bold mb-3">Code Editor</h1>
         <div className="mb-4">
           <label htmlFor="language" className="block text-sm font-medium text-gray-700">Language</label>
@@ -77,13 +79,13 @@ int main() {
             name="language"
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md w-1/2"
           >
             <option value="cpp">C++</option>
             <option value="java">Java</option>
           </select>
         </div>
-        <div className="bg-gray-500 shadow-md mb-4" style={{ height: '300px', overflowY: 'auto' }}>
+        <div className="bg-gray-800 shadow-lg rounded-lg mb-4 p-4 flex-grow overflow-auto">
           <Editor
             value={code}
             onValueChange={code => setCode(code)}
@@ -91,10 +93,11 @@ int main() {
             padding={10}
             style={{
               fontFamily: '"Fira code", "Fira Mono", monospace',
-              fontSize: 12,
+              fontSize: 14,
               outline: 'none',
               border: 'none',
-              backgroundColor: '#f7fafc',
+              backgroundColor: '#1e293b',
+              color: '#f8f8f2',
               height: '100%',
               overflowY: 'auto'
             }}
@@ -103,20 +106,9 @@ int main() {
         <button
           onClick={handleSubmit}
           type="button"
-          className="w-full text-center mt-4 bg-gradient-to-br from-blue-800 to-orange-400 hover:from-pink-600 hover:to-orange-500 focus:outline-none text-black font-medium rounded-lg text-sm px-5 py-2.5"
+          className="w-full text-center mt-4 bg-gradient-to-r from-blue-500 to-green-500 hover:from-pink-500 hover:to-yellow-500 text-white font-medium rounded-lg text-sm px-5 py-2.5"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-5 h-5 inline-block align-middle me-2"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
-          </svg>
-          Run
+          Submit
         </button>
         <div className="mt-4">
           {allPassed !== null && (
@@ -125,7 +117,7 @@ int main() {
             </div>
           )}
           <div className="mt-4">
-            <h2 className="text-lg font-semibold mb-2">Results</h2>
+            <h2 className="text-lg font-semibold mb-2">Result</h2>
             <ul>
               {results.map((result, index) => (
                 <li key={index} className="mb-2">
@@ -136,6 +128,7 @@ int main() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

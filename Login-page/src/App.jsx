@@ -8,12 +8,14 @@ import UpdateProblem from './Components/UpdateProblem';
 import ProblemSolve from './Components/ProblemSolve';
 import ProblemSolvingPage from './Components/ProblemSolvingPage';
 import CreateProblemPage from './Components/CreateProblemPage';
+// import ProfilePage from './Components/profilePage';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        {/* <Route path="/profile" element={<ProfilePage />} /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/problem-list" element={<ProblemListPage />} />
         <Route path="/problems/:id" element={<ProblemSolvingPage/>}/>

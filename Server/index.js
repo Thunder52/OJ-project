@@ -58,9 +58,8 @@ app.post("/register", async (req, res) => {
             expiresIn: "1d",
         });
 
-        user.token = token;
         user.password = undefined;
-        res.status(200).json({ message: "You have successfully registered!", user });
+        res.status(200).json({ message: "You have successfully registered!", user,token });
     } catch (error) {
         console.log(error);
         res.status(500).send("Internal Server Error");

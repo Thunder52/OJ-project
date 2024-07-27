@@ -13,10 +13,10 @@ if (!fs.existsSync(dirCodes)) {
 
 const generateFile = async (format, content) => {
     const jobID = uuid();
-    const filename =` ${jobID}.${format}`;
+    const filename = `${jobID}.${format}`; // Removed the extra space
     const filePath = path.join(dirCodes, filename);
     await fs.writeFileSync(filePath, content);
     return filePath;
 }
 
-export default  generateFile;
+export default generateFile;
