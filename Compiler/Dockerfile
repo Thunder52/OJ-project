@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:18-alpine
 WORKDIR /app
 RUN apk update && apk add --no-cache g++
 RUN apk update && apk add --no-cache openjdk17

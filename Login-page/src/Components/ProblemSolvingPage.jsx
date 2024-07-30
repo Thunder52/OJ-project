@@ -24,7 +24,7 @@ int main() {
   useEffect(() => {
     const fetchProblem = async () => {
       try {
-        const response = await axios.get(`http://13.233.90.66:8000//api/problems/${id}`);
+        const response = await axios.get(`http://15.207.85.21:8000/api/problems/${id}`);
         setProblem(response.data);
       } catch (error) {
         console.error('Error fetching problem:', error);
@@ -36,7 +36,7 @@ int main() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(`http://13.233.172.127:5000/run/${id}`, {
+      const response = await axios.post(`http://13.235.13.183:5000/run/${id}`, {
         code,
         language
       });
