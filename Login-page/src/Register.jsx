@@ -1,8 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from './Service/api';
-// import { AuthContext } from './AuthContext';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -12,7 +10,6 @@ const Register = () => {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  // const {login}=useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,16 +26,16 @@ const Register = () => {
       return;
     }
 
-   const userData={name,email,password};
-   console.log('Submitting userData:', userData);
+    const userData = { name, email, password };
+    console.log('Submitting userData:', userData);
 
     try {
       const response = await registerUser(userData);
-      console.log('Registration Successfull' ,response);
+      console.log('Registration Successful', response);
+      localStorage.setItem('token', response.user.token);
       navigate('/');
-      }
-     catch (error) {
-      console.log("Registration failed",error);
+    } catch (error) {
+      console.log("Registration failed", error);
       setError('An error occurred. Please try again.');
     }
   };
@@ -98,7 +95,7 @@ const Register = () => {
                 Register
               </button>
               <Link
-                to="/login"
+                to="/"
                 className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 Login

@@ -22,7 +22,12 @@ import Problem from '../models/problems.js';
 import User from '../models/Users.js';
 import isAdmin from '../middlewear/isAdmin.js';
 
-import { getProblems, getProblemById, createProblem, updateProblem, deleteProblem } from '../controllers/ProblemController.js';
+// import { getProblems, getProblemById, createProblem, updateProblem, deleteProblem } from '../controllers/ProblemController.js';
+import { getProblems } from '../Controllers/getProblems.js';
+import { getProblemById } from '../Controllers/getProblemById.js';
+import { createProblem } from '../Controllers/createProblem.js';
+import { updateProblem } from '../Controllers/updateProblem.js';
+import { deleteProblem } from '../Controllers/deleteProblem.js';
 
 router.get('/', getProblems);
 router.get('/:id', getProblemById);

@@ -17,7 +17,7 @@ const UpdateProblemPage = () => {
   useEffect(() => {
     const fetchProblem = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/problems/${id}`);
+        const response = await axios.get(`http://13.233.90.66:8000//api/problems/${id}`);
         setProblem(response.data);
       } catch (error) {
         console.error('Error fetching problem:', error);
