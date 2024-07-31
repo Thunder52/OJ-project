@@ -25,7 +25,7 @@ if (!token) {
   useEffect(() => {
     const fetchProblemList = async () => {
       try {
-        const response = await axios.get('http://15.207.85.21:8000/api/problems');
+        const response = await axios.get('http://43.204.157.96:8000/api/problems');
         setProblems(response.data);
         setFilteredProblems(response.data);
       } catch (error) {

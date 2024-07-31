@@ -3,3 +3,5 @@ codes
 inputs
 outputs
 .env
+Dockerfile
+.dockerignore

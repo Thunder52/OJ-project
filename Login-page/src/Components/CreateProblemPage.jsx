@@ -43,7 +43,7 @@ const CreateProblemPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://13.233.90.66:8000//api/problems', problem);
+      await axios.post('http://43.204.157.96:8000/api/problems', problem);
       navigate('/problem-list');
     } catch (error) {
       console.error('Error creating problem:', error);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BACKEND_API_URL = "http://15.207.85.21:8000/"
+const BACKEND_API_URL = "http://43.204.157.96:8000/"
 
 const api = axios.create({
   baseURL: BACKEND_API_URL,
