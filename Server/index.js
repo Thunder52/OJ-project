@@ -19,9 +19,9 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Replace with your frontend URL
+    origin: 'https://algoarena.site',
     methods:['POST','GET'],
-    credentials: true // Allow cookies to be sent
+    credentials: true 
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
