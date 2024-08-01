@@ -25,7 +25,7 @@ if (!token) {
   useEffect(() => {
     const fetchProblemList = async () => {
       try {
-        const response = await axios.get('http://43.204.157.96:8000/api/problems');
+        const response = await axios.get('https://api.algoarena.site/api/problems');
         setProblems(response.data);
         setFilteredProblems(response.data);
       } catch (error) {
@@ -46,7 +46,7 @@ if (!token) {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://15.207.85.21:8000/api/problems/${id}`);
+      await axios.delete(`https://api.algoarena.site/api/problems/${id}`);
       setProblems(problems.filter((problem) => problem._id !== id));
     } catch (error) {
       console.error('Error deleting problem:', error);

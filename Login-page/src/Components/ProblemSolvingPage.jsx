@@ -24,7 +24,8 @@ int main() {
   useEffect(() => {
     const fetchProblem = async () => {
       try {
-        const response = await axios.get(`http://43.204.157.96:8000/api/problems/${id}`);
+        const response = await axios.get(`https://api.algoarena.site/api/problems/${id}`);
+
         setProblem(response.data);
       } catch (error) {
         console.error('Error fetching problem:', error);
@@ -36,7 +37,7 @@ int main() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(`http://65.2.19.1:5000/run/${id}`, {
+      const response = await axios.post(`https://compiler.algoarena.site/run/${id}`, {
         code,
         language
       });

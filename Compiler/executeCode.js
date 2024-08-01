@@ -11,8 +11,22 @@ if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
 }
 const sanitizeClassName = (filename) => {
-    // Create a valid Java class name (must start with a letter and contain only letters and digits)
-    return 'Main'; // Use a generic name 'Main' for simplicity
+    const baseName = path.basename(filename, path.extname(filename));
+    
+    // Replace any non-alphanumeric characters with underscores
+    let sanitizedName = baseName.replace(/[^a-zA-Z0-9_]/g, '_');
+    
+    // Ensure the name starts with a letter or underscore
+    if (!/^[a-zA-Z_]/.test(sanitizedName)) {
+        sanitizedName = '_' + sanitizedName;
+    }
+
+    // Use a generic name 'Main' if the name is invalid after sanitization
+    if (sanitizedName.length === 0) {
+        sanitizedName = 'Main';
+    }
+
+    return sanitizedName;
 };
 const executeCpp = (filepath, inputPath) => {
     const jobId = path.basename(filepath).split(".")[0];

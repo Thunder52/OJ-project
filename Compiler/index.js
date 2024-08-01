@@ -10,7 +10,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://algoarena.site',
+    methods:['POST','GET'],
+    credentials: true 
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
