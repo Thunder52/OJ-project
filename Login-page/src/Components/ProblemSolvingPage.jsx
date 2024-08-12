@@ -92,16 +92,16 @@ int main() {
             onValueChange={code => setCode(code)}
             highlight={code => highlight(code, languages.js)}
             padding={10}
-            style={{
-              fontFamily: '"Fira code", "Fira Mono", monospace',
-              fontSize: 14,
-              outline: 'none',
-              border: 'none',
-              backgroundColor: '#1e293b',
-              color: '#f8f8f2',
-              height: '100%',
-              overflowY: 'auto'
-            }}
+            // style={{
+            //   fontFamily: '"Fira code", "Fira Mono", monospace',
+            //   fontSize: 14,
+            //   outline: 'none',
+            //   border: 'none',
+            //   backgroundColor: '#1e293b',
+            //   color: '#f8f8f2',
+            //   height: '100%',
+            //   overflowY: 'auto'
+            // }}
           />
         </div>
         <button
