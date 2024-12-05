@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BACKEND_API_URL = "https://api.algoarena.site/"
+const BACKEND_API_URL = "https://oj-project-yr3k.onrender.com/"
 
 const api = axios.create({
   baseURL: BACKEND_API_URL,
