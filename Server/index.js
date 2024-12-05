@@ -18,11 +18,23 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use(cors({
-    origin: 'https://algoarena.site',
-    methods:['POST','GET'],
-    credentials: true 
-}));
+const allowedOrigins = [
+  'https://algoarena.site',
+  'https://oj-project-git-main-husains-projects-e2c33c8e.vercel.app'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true // If you are using cookies or credentials
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
