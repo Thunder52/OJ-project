@@ -24,7 +24,7 @@ int main() {
   useEffect(() => {
     const fetchProblem = async () => {
       try {
-        const response = await axios.get(`https://oj-project-1-lgyw.onrender.com/api/problems/${id}`);
+        const response = await axios.get(`https://oj-project-yr3k.onrender.com/api/problems/${id}`);
 
         setProblem(response.data);
       } catch (error) {
@@ -37,7 +37,7 @@ int main() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(`https://compiler.algoarena.site/run/${id}`, {
+      const response = await axios.post(`https://oj-project-1-lgyw.onrender.com/run/${id}`, {
         code,
         language
       });
