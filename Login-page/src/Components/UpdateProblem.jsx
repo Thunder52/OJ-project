@@ -17,7 +17,7 @@ const UpdateProblemPage = () => {
   useEffect(() => {
     const fetchProblem = async () => {
       try {
-        const response = await axios.get(`https://api.algoarena.site/api/problems/${id}`);
+        const response = await axios.get(`https://oj-project-yr3k.onrender.com/api/problems/${id}`);
         setProblem(response.data);
       } catch (error) {
         console.error('Error fetching problem:', error);
