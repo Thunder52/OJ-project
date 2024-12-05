@@ -57,7 +57,7 @@ const UpdateProblemPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:8000/api/problems/${id}`, problem);
+      await axios.put(`https://oj-project-yr3k.onrender.com/api/problems/${id}`, problem);
       navigate('/problem-list');
     } catch (error) {
       console.error('Error updating problem:', error);
