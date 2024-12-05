@@ -7,7 +7,7 @@ const ProblemSolve = ({match})=> {
     useEffect(()=>{
         const fetchProblem=async()=>{
             try {
-                const response=await axios.get(`https://api.algoarena.site/${match.param.id}`);
+                const response=await axios.get(`https://oj-project-1-lgyw.onrender.com/${match.param.id}`);
                 setProblem(response.data);
             } catch (error) {
                 console.error('error fetchung the problem statement',error);
