@@ -24,7 +24,7 @@ int main() {
   useEffect(() => {
     const fetchProblem = async () => {
       try {
-        const response = await axios.get(`https://api.algoarena.site/api/problems/${id}`);
+        const response = await axios.get(`https://oj-project-1-lgyw.onrender.com/api/problems/${id}`);
 
         setProblem(response.data);
       } catch (error) {
