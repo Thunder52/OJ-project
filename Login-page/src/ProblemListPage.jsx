@@ -25,7 +25,7 @@ if (!token) {
   useEffect(() => {
     const fetchProblemList = async () => {
       try {
-        const response = await axios.get('https://api.algoarena.site/api/problems');
+        const response = await axios.get('https://oj-project-yr3k.onrender.com/api/problems');
         setProblems(response.data);
         setFilteredProblems(response.data);
       } catch (error) {
