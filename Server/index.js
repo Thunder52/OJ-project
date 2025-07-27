@@ -20,7 +20,8 @@ const PORT = process.env.PORT || 8000;
 
 const allowedOrigins = [
   'https://algoarena.site',
-  'https://oj-project-git-main-husains-projects-e2c33c8e.vercel.app'
+  'https://oj-project-git-main-husains-projects-e2c33c8e.vercel.app',
+  'https://www.algoarena.codes/'
 ];
 
 const corsOptions = {
