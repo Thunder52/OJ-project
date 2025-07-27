@@ -11,7 +11,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 app.use(cors({
-    origin: 'https://algoarena.site',
+    origin: 'https://algoarena.codes',
     methods:['POST','GET'],
     credentials: true 
 }));
